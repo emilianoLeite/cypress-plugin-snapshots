@@ -1,5 +1,4 @@
-    
-// -- Example Usage: 
+// -- Example Usage:
 // -- cypress/tsconfig.json
 // {
 //   "compilerOptions": {
@@ -7,21 +6,53 @@
 //    }
 // }
 
+type CypressScreenshotFnOptions = Partial<
+  Cypress.Loggable & Cypress.Timeoutable & Cypress.ScreenshotOptions
+>;
+
 declare namespace Cypress {
   interface Chainable<Subject = any> {
-    toMatchSnapshot(options?: Partial<{
-      ignoreExtralFields: boolean,
-      ignoreExtraArrayItems: boolean,
-      normalizeJson: boolean,
-      replace: any,
-      name: string
-    }>): Chainable<null>;
+    toMatchSnapshot(
+      options?: Partial<{
+        ignoreExtralFields: boolean;
+        ignoreExtraArrayItems: boolean;
+        normalizeJson: boolean;
+        replace: any;
+        name: string;
+      }>
+    ): Chainable<null>;
 
-    toMatchImageSnapshot(options?: Partial<{
-      createDiffImage: boolean,
-      threshold: number,
-      thresholdType: "percent" | "pixels",
-      name: string
-    }> & Partial<ScreenshotDefaultsOptions>): Chainable<null>;
+    toMatchImageSnapshot(
+      options?: {
+        imageConfig?: Partial<{
+          /**
+           * Field description here
+           *
+           * @default 'xxx'
+           */
+          createDiffImage: boolean;
+          /**
+           * Field description here
+           *
+           * @default 'xxx'
+           */
+          resizeDevicePixelRatio: boolean;
+          /**
+           * Field description here
+           *
+           * @default 'xxx'
+           */
+          threshold: number;
+          /**
+           * Field description here
+           *
+           * @default 'xxx'
+           */
+          thresholdType: 'percent' | 'pixels';
+        }>;
+        name?: string;
+        separator?: string;
+      } & Partial<CypressScreenshotFnOptions>
+    ): Chainable<null>;
   }
 }
